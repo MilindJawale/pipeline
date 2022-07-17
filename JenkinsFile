@@ -1,0 +1,24 @@
+pipeline{
+    agent{
+        node{
+            label 'node1'
+        }
+    }
+    stages{
+        stage('code-pull'){
+            steps{
+                sh 'sudo yum update -y'
+                sh 'sudo yum install git -y'
+                git 'https://github.com/MilindJawale/pipeline.git'
+            }
+        }
+        stage('deploy'){
+            steps{
+            sh 'sudo yum update -y'
+            sh 'sudo yum install httpd -y'
+            sh 'sudo systemctl start httpd'
+            sh 'sudo cp index.html /var/www/html/index.html'
+            }
+        }
+    }
+}
